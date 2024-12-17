@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArithmoCompiler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>ArithmoCompiler</h1>
+        <form id="inputForm">
+            <label for="expression">Enter Expression or Assignment:</label>
+            <input type="text" id="expression" name="expression" placeholder="e.g., a = 3 or a + b">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="result">
+            <p>Result: <span id="resultText"></span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('inputForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let expression = document.getElementById('expression').value;
+
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `expression=${encodeURIComponent(expression)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+                    document.getElementById('resultText').textContent = data.result;
+                } else {
+                    document.getElementById('resultText').textContent = 'Error: ' + data.error;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
