@@ -31,7 +31,7 @@
    
 2. Install the required dependencies:
    
-   pip install -r requirements.txt
+   pip install -r requirement.txt
    
 3. Run the application:
    
